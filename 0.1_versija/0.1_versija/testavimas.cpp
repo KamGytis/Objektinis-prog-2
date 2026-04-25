@@ -1,7 +1,6 @@
-#include "vector.h"
-#include "list.h"
-#include "deque.h"
-#include "utils.h"
+#include "vector_ops.h"
+#include "list_ops.h"
+#include "deque_ops.h"
 
 #include <iostream>
 #include <iomanip>
@@ -57,7 +56,7 @@ static TestRow testuoti_vector(const std::string& f, int strat) {
     r.strategija = "S" + std::to_string(strat); r.failas = f;
     auto total = std::chrono::high_resolution_clock::now();
 
-    std::vector<StudentasV> studentai;
+    std::vector<Studentas> studentai;
     auto t0 = std::chrono::high_resolution_clock::now();
     skaitymas_is_failo(f, studentai);
     r.skaitymas = std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - t0).count();
@@ -67,7 +66,7 @@ static TestRow testuoti_vector(const std::string& f, int strat) {
     rusiavimas(studentai, 5);
     r.rusiavimas = std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - t0).count();
 
-    std::vector<StudentasV> kieti, vargsai, tmp;
+    std::vector<Studentas> kieti, vargsai, tmp;
     if (strat == 1) { r.skirstymas = skirstymas_s1(studentai, kieti, vargsai); }
     else if (strat == 2) { tmp = studentai; r.skirstymas = skirstymas_s2(tmp, vargsai); }
     else { tmp = studentai; r.skirstymas = skirstymas_s3(tmp, vargsai); }
@@ -81,7 +80,7 @@ static TestRow testuoti_list(const std::string& f, int strat) {
     r.strategija = "S" + std::to_string(strat); r.failas = f;
     auto total = std::chrono::high_resolution_clock::now();
 
-    std::list<StudentasL> studentai;
+    std::list<Studentas> studentai;
     auto t0 = std::chrono::high_resolution_clock::now();
     skaitymas_is_failo_l(f, studentai);
     r.skaitymas = std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - t0).count();
@@ -91,7 +90,7 @@ static TestRow testuoti_list(const std::string& f, int strat) {
     rusiavimas_l(studentai);
     r.rusiavimas = std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - t0).count();
 
-    std::list<StudentasL> kieti, vargsai, tmp;
+    std::list<Studentas> kieti, vargsai, tmp;
     if (strat == 1) { r.skirstymas = skirstymas_s1_l(studentai, kieti, vargsai); }
     else if (strat == 2) { tmp = studentai; r.skirstymas = skirstymas_s2_l(tmp, vargsai); }
     else { tmp = studentai; r.skirstymas = skirstymas_s3_l(tmp, vargsai); }
@@ -105,7 +104,7 @@ static TestRow testuoti_deque(const std::string& f, int strat) {
     r.strategija = "S" + std::to_string(strat); r.failas = f;
     auto total = std::chrono::high_resolution_clock::now();
 
-    std::deque<StudentasD> studentai;
+    std::deque<Studentas> studentai;
     auto t0 = std::chrono::high_resolution_clock::now();
     skaitymas_is_failo_d(f, studentai);
     r.skaitymas = std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - t0).count();
@@ -115,7 +114,7 @@ static TestRow testuoti_deque(const std::string& f, int strat) {
     rusiavimas_d(studentai);
     r.rusiavimas = std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - t0).count();
 
-    std::deque<StudentasD> kieti, vargsai, tmp;
+    std::deque<Studentas> kieti, vargsai, tmp;
     if (strat == 1) { r.skirstymas = skirstymas_s1_d(studentai, kieti, vargsai); }
     else if (strat == 2) { tmp = studentai; r.skirstymas = skirstymas_s2_d(tmp, vargsai); }
     else { tmp = studentai; r.skirstymas = skirstymas_s3_d(tmp, vargsai); }
