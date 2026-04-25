@@ -79,29 +79,49 @@ bool Studentas::operator>(const Studentas& other) const {
 bool Studentas::operator==(const Studentas& other) const {
     return vardas_ == other.vardas_ && pavarde_ == other.pavarde_;
 }
+bool Studentas::operator!=(const Studentas& other) const {
+    return !(*this == other);
+}
+bool Studentas::operator<=(const Studentas& other) const {
+    return rez_ <= other.rez_;
+}
+bool Studentas::operator>=(const Studentas& other) const {
+    return rez_ >= other.rez_;
+}
 
 //  Isvedimo operatorius 
+// Formatas: Vardas           Pavarde         [p1 p2 ... pN] Egz: E  Rez: R
 std::ostream& operator<<(std::ostream& os, const Studentas& s) {
-    os << std::left << std::setw(20) << s.vardas_
-        << std::setw(20) << s.pavarde_
-        << std::right << std::setw(20) << std::fixed
-        << std::setprecision(2) << s.rez_;
+    os << std::left << std::setw(15) << s.vardas_
+        << std::setw(15) << s.pavarde_
+        << "[";
+    for (size_t i = 0; i < s.paz_.size(); ++i) {
+        os << s.paz_[i];
+        if (i + 1 < s.paz_.size()) os << " ";
+    }
+    os << "] Egz: " << s.egz_
+        << std::right << "  Rez: "
+        << std::fixed << std::setprecision(2) << s.rez_;
     return os;
 }
 
 //  Ivedimo operatorius 
 std::istream& operator>>(std::istream& is, Studentas& s) {
     is >> s.vardas_ >> s.pavarde_;
-    int v;
     std::string line;
     std::getline(is, line);
     std::istringstream ss(line);
     s.paz_.clear();
+    int v;
     while (ss >> v) s.paz_.push_back(v);
     if (!s.paz_.empty()) {
         s.egz_ = s.paz_.back();
         s.paz_.pop_back();
     }
+    else {
+        s.egz_ = 0;
+    }
+    s.rez_ = 0.0;
     return is;
 }
 
