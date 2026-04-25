@@ -24,30 +24,33 @@
     <ClCompile Include="testavimas.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="list_funkc.cpp">
+    <ClCompile Include="list_ops.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="deque_funkc.cpp">
+    <ClCompile Include="deque_ops.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="vector_funkc.cpp">
+    <ClCompile Include="vector_ops.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="studentas.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="vector.h">
+    <ClInclude Include="vector_ops.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="utils.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="list.h">
+    <ClInclude Include="list_ops.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="deque.h">
+    <ClInclude Include="deque_ops.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="studentas.h">

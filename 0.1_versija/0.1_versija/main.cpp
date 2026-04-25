@@ -6,9 +6,9 @@
 #include <deque>
 #include <chrono>
 
-#include "vector.h"
-#include "list.h"
-#include "deque.h"
+#include "vector_ops.h"
+#include "list_ops.h"
+#include "deque_ops.h"
 #include "utils.h"
 
 void generuoti_testu_failus();
@@ -21,7 +21,7 @@ static void skaityti_vector() {
     std::string fn;
     std::cout << "Failo pavadinimas: "; std::cin >> fn;
 
-    std::vector<StudentasV> studentai;
+    std::vector<Studentas> studentai;
     try {
         auto t0 = std::chrono::high_resolution_clock::now();
         skaitymas_is_failo(fn, studentai);
@@ -39,7 +39,7 @@ static void skaityti_vector() {
     rusiavimas(studentai, rus);
     std::cout << "Rusiavimas: " << std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - t0).count() << " s\n";
 
-    std::vector<StudentasV> kieti, vargsai;
+    std::vector<Studentas> kieti, vargsai;
     t0 = std::chrono::high_resolution_clock::now();
     skirstymas_i_grupes(studentai, kieti, vargsai);
     std::cout << "Skirstymas: " << std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - t0).count() << " s\n";
@@ -54,7 +54,7 @@ static void skaityti_list() {
     std::string fn;
     std::cout << "Failo pavadinimas: "; std::cin >> fn;
 
-    std::list<StudentasL> studentai;
+    std::list<Studentas> studentai;
     try {
         auto t0 = std::chrono::high_resolution_clock::now();
         skaitymas_is_failo_l(fn, studentai);
@@ -70,7 +70,7 @@ static void skaityti_list() {
     rusiavimas_l(studentai);
     std::cout << "Rusiavimas: " << std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - t0).count() << " s\n";
 
-    std::list<StudentasL> kieti, vargsai;
+    std::list<Studentas> kieti, vargsai;
     t0 = std::chrono::high_resolution_clock::now();
     skirstymas_i_grupes_l(studentai, kieti, vargsai);
     std::cout << "Skirstymas: " << std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - t0).count() << " s\n";
@@ -85,7 +85,7 @@ static void skaityti_deque() {
     std::string fn;
     std::cout << "Failo pavadinimas: "; std::cin >> fn;
 
-    std::deque<StudentasD> studentai;
+    std::deque<Studentas> studentai;
     try {
         auto t0 = std::chrono::high_resolution_clock::now();
         skaitymas_is_failo_d(fn, studentai);
@@ -101,7 +101,7 @@ static void skaityti_deque() {
     rusiavimas_d(studentai);
     std::cout << "Rusiavimas: " << std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - t0).count() << " s\n";
 
-    std::deque<StudentasD> kieti, vargsai;
+    std::deque<Studentas> kieti, vargsai;
     t0 = std::chrono::high_resolution_clock::now();
     skirstymas_i_grupes_d(studentai, kieti, vargsai);
     std::cout << "Skirstymas: " << std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - t0).count() << " s\n";
@@ -116,20 +116,20 @@ static void skaityti_deque() {
 // Rankinis ivedimas (vector) - is originalo
 
 static void rankinis_ivedimas() {
-    std::vector<StudentasV> studentai;
+    std::vector<Studentas> studentai;
     int chosen = 1;
     do {
-        StudentasV s;
-        s.vardas = ivesti_varda_ar_pavarde("Vardas: ");
-        s.pavarde = ivesti_varda_ar_pavarde("Pavarde: ");
+        std::string vardas = ivesti_varda_ar_pavarde("Vardas: ");
+        std::string pavarde = ivesti_varda_ar_pavarde("Pavarde: ");
+        std::vector<int> paz;
         std::cout << "Pazymiai (0-10, -1 baigti):\n";
         while (true) {
             int p = ivesties_tikrinimas("Pazymys: ");
             if (p == -1) break;
-            s.paz.push_back(p);
+            paz.push_back(p);
         }
-        s.egz = ivesties_tikrinimas("Egzamino pazymys: ");
-        studentai.push_back(s);
+        int egz = ivesties_tikrinimas("Egzamino pazymys: ");
+        studentai.emplace_back(vardas, pavarde, paz, egz);
         std::cout << "Dar vienas? (1-taip, 0-ne): "; std::cin >> chosen;
     } while (chosen == 1);
 

@@ -124,20 +124,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="deque_funkc.cpp" />
+    <ClCompile Include="deque_ops.cpp" />
     <ClCompile Include="generator.cpp" />
-    <ClCompile Include="list_funkc.cpp" />
+    <ClCompile Include="list_ops.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="studentas.cpp" />
     <ClCompile Include="testavimas.cpp" />
     <ClCompile Include="utils.cpp" />
-    <ClCompile Include="vector_funkc.cpp" />
+    <ClCompile Include="vector_ops.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="deque.h" />
-    <ClInclude Include="list.h" />
+    <ClInclude Include="deque_ops.h" />
+    <ClInclude Include="list_ops.h" />
     <ClInclude Include="studentas.h" />
     <ClInclude Include="utils.h" />
-    <ClInclude Include="vector.h" />
+    <ClInclude Include="vector_ops.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
