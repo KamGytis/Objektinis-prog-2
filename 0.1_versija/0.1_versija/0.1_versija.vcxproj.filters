@@ -50,5 +50,8 @@
     <ClInclude Include="deque.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="studentas.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

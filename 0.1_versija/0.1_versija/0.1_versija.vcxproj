@@ -135,6 +135,7 @@
   <ItemGroup>
     <ClInclude Include="deque.h" />
     <ClInclude Include="list.h" />
+    <ClInclude Include="studentas.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="vector.h" />
   </ItemGroup>
