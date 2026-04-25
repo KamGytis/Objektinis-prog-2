@@ -1,24 +1,31 @@
-Copy
-
 CXX      = g++
-CXXFLAGS = -std=c++17 -O2 -Wall -Wextra
+CXXFLAGS = -std=c++17 -Wall -Wextra
 TARGET   = studentai
-SRCS     = main.cpp utils.cpp generator.cpp \
-           vector_funkc.cpp list_funkc.cpp \
-           deque_funkc.cpp testavimas.cpp
  
-.PHONY: all clean run
+SRCS = main.cpp studentas.cpp vector_ops.cpp list_ops.cpp deque_ops.cpp \
+       generator.cpp testavimas.cpp utils.cpp
+ 
+OBJS = $(SRCS:.cpp=.o)
+ 
+.PHONY: all clean O1 O2 O3
  
 all: $(TARGET)
  
-$(TARGET): $(SRCS)
+$(TARGET): $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $@ $^
-	@echo "Sukompiliuota: $(TARGET)"
  
-run: $(TARGET)
-	./$(TARGET)
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+ 
+O1:
+	$(CXX) $(CXXFLAGS) -O1 -o $(TARGET)_O1 $(SRCS)
+ 
+O2:
+	$(CXX) $(CXXFLAGS) -O2 -o $(TARGET)_O2 $(SRCS)
+ 
+O3:
+	$(CXX) $(CXXFLAGS) -O3 -o $(TARGET)_O3 $(SRCS)
  
 clean:
-	rm -f $(TARGET)
-	@echo "Istrinta"
+	rm -f $(OBJS) $(TARGET) $(TARGET)_O1 $(TARGET)_O2 $(TARGET)_O3
  
