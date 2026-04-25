@@ -43,6 +43,17 @@ public:
     bool operator<(const Studentas& other) const;
     bool operator>(const Studentas& other) const;
     bool operator==(const Studentas& other) const;
+    bool operator<=(const Studentas& other) const;
+    bool operator>=(const Studentas& other) const;
+    bool operator!=(const Studentas& other) const;
+
+	// prideti pazymi prie esamu
+    Studentas& operator+=(int pazymys);
+
+	//indeksavimo operatorius - grazina pazymi pagal indeksa
+    int  operator[](size_t i) const;
+    int& operator[](size_t i);
+
 
     //  Srautu operatoriai 
     friend std::ostream& operator<<(std::ostream& os, const Studentas& s);
@@ -54,6 +65,7 @@ public:
     const std::vector<int>& getPaz() const { return paz_; }
     int    getEgz() const { return egz_; }
     double getRez() const { return rez_; }
+    size_t getPazSkaicius() const { return paz_.size(); }
 
     // Setteriai 
     void setVardas(const std::string& v) { vardas_ = v; }
@@ -68,6 +80,7 @@ public:
     double vidurkis() const;
     double mediana()  const;
     void   skaiciuotiRez(int tipas);  // 1 = vidurkis, 2 = mediana
+    bool   islaike() const { return rez_ >= 5.0; }
 };
 
 #endif 
