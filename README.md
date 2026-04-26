@@ -1,18 +1,20 @@
-# Studentų programa v1.1
+# Studentu programa v1.2
 
-Programa skirta studentų duomenų valdymui naudojant C++ klases ir STL konteinerius.
+Programa skirta studentu duomenu valdymui naudojant C++ klases ir STL konteinerius.
 
 ---
 
 ## Turinys
 1. [Reikalavimai](#reikalavimai)
-2. [Įdiegimo instrukcija](#įdiegimo-instrukcija)
+2. [Idiegimo instrukcija](#idiegimo-instrukcija)
 3. [Naudojimo instrukcija](#naudojimo-instrukcija)
-4. [Repozitorijos klonavimas](#repozitorijos-klonavimas)
-5. [Pakeitimai v1.0 → v1.1](#pakeitimai-v10--v11)
-6. [Spartos palyginimas: struct vs class](#spartos-palyginimas-struct-vs-class)
-7. [Optimizavimo vėliavėlių analizė](#optimizavimo-vėliavėlių-analizė)
-8. [Relizų aprašas](#relizų-aprašas)
+4. [Studentas klase](#studentas-klase)
+5. [Rule of Five](#rule-of-five)
+6. [Perdengti ivesties ir isvesties operatoriai](#perdengti-ivesties-ir-isvesties-operatoriai)
+7. [Klases testavimas](#klases-testavimas)
+8. [Spartos palyginimas struct vs class](#spartos-palyginimas-struct-vs-class)
+9. [Optimizavimo veliaveliuanalize](#optimizavimo-veliaveliuanalize)
+10. [Reliazu aprasas](#reliazu-aprasas)
 
 ---
 
@@ -24,13 +26,13 @@ Programa skirta studentų duomenų valdymui naudojant C++ klases ir STL konteine
 
 ---
 
-## Įdiegimo instrukcija
+## Idiegimo instrukcija
 
 ### Linux / macOS
 
 ```bash
-git clone https://github.com/USERNAME/studentai_v11.git
-cd studentai_v11
+git clone https://github.com/USERNAME/studentai.git
+cd studentai
 make
 ./studentai
 ```
@@ -42,108 +44,359 @@ make        # Kompiliuoti be optimizavimo
 make O1     # Kompiliuoti su -O1
 make O2     # Kompiliuoti su -O2
 make O3     # Kompiliuoti su -O3
-make clean  # Ištrinti sukompiliuotus failus
+make clean  # Istrinti sukompiliuotus failus
 ```
 
 ### Windows (Visual Studio)
 
-Atidaryti `.sln` failą ir spausti **Build → Build Solution**, tada paleisti `studentai.exe`.
+Atidaryti `.sln` faila ir spausti **Build -> Build Solution**, tada paleisti `studentai.exe`.
+
+### Versiju kurimas (git)
+
+```bash
+# Nukopijuoti sena repozitorija
+cp -r studentai_v11/ studentai_v12/
+cd studentai_v12/
+
+# Pakeisti nuotolini adresa
+git remote set-url origin https://github.com/USERNAME/studentai_v12.git
+git push -u origin master
+
+# Sukurti v1.2 saka ir release
+git checkout -b v1.2
+git push origin v1.2
+git tag v1.2
+git push origin v1.2
+```
 
 ---
 
 ## Naudojimo instrukcija
 
 ```
-======= STUDENTU PROGRAMA v1.1 (class) =======
+======= STUDENTU PROGRAMA v1.2 (class) =======
 1 - Rankinis ivedimas
 2 - Skaityti is failo (vector)
 3 - Skaityti is failo (list)
 4 - Skaityti is failo (deque)
 5 - Testavimas (visi konteineriai)
 6 - Generuoti studentu failus
-7 - Baigti
+7 - Studentas klases testavimas
+8 - Baigti
 ```
 
-- **1 parinktis** – rankinis duomenų įvedimas: vardas, pavardė, pažymiai, egzaminas, rezultato išvedimas.
-- **2–4 parinktis** – skaitymas iš pasirinkto `.txt` failo su pasirinktu konteineriu, rūšiavimas ir skirstymas į grupes.
-- **5 parinktis** – automatinis testavimas visais konteineriais ir strategijomis, rezultatai išvedami į terminalą.
-- **6 parinktis** – studentų failų generavimas (1k, 10k, 100k, 1M, 10M įrašų).
-- **7 parinktis** – programos nutraukimas.
+- **1 parinktis** – rankinis duomenu ivedimas: vardas, pavarde, pazymiai, egzaminas, rezultato isvedimas.
+- **2-4 parinktis** – skaitymas is pasirinkto `.txt` failo su pasirinktu konteineriu, rusiavimas ir skirstymas i grupes.
+- **5 parinktis** – automatinis testavimas visais konteineriais ir strategijomis.
+- **6 parinktis** – studentu failu generavimas (1k, 10k, 100k, 1M, 10M irasu).
+- **7 parinktis** – `Studentas` klases visu metodu testavimas.
+- **8 parinktis** – programos nutraukimas.
 
 **Rekomenduojama tvarka:**
-1. Pasirinkti **6 → 1** – sugeneruoti testų failus.
-2. Pasirinkti **5** – atlikti lyginamąjį testavimą.
+1. Pasirinkti **6 -> 1** – sugeneruoti testu failus.
+2. Pasirinkti **5** – atlikti lyginamaji testavima.
 
 ---
 
-## Repozitorijos klonavimas
+## Studentas klase
 
-v1.1 sukurta remiantis v1.0 repozitorija – išsaugota visa ankstesnė git istorija.
+### Privatus laukai
 
-```bash
-# 1. Nukopijuoti lokaliai seną repozitoriją
-cp -r studentai_v10/ studentai_v11/
-cd studentai_v11/
+| Laukas     | Tipas                | Aprasymas                        |
+|------------|----------------------|----------------------------------|
+| `vardas_`  | `std::string`        | Studento vardas                  |
+| `pavarde_` | `std::string`        | Studento pavarde                 |
+| `paz_`     | `std::vector<int>`   | Namu darbu pazymiai (1-10)       |
+| `egz_`     | `int`                | Egzamino pazymys                 |
+| `rez_`     | `double`             | Galutinis rezultatas             |
 
-# 2. Pakeisti nuotolinį adresą į naują repozitoriją
-git remote set-url origin https://github.com/USERNAME/studentai_v11.git
+### Visi metodai
 
-# 3. Nupushinti su visa istorija
-git push -u origin master
-
-# 4. Sukurti v1.1 release
-git tag v1.1
-git push origin v1.1
-```
-
----
-
-## Pakeitimai v1.0 → v1.1
-
-### Struktūros → Klasės perėjimas
-
-`v1.0` naudojo atskiras struktūras kiekvienam konteineriui: `StudentasV`, `StudentasL`, `StudentasD`.  
-`v1.1` naudoja **vieną universalią klasę `Studentas`**, tinkančią visiems STL konteineriams.
-
-### Klasės `Studentas` realizacija
-
-```cpp
-class Studentas {
-private:
-    std::string      vardas_;
-    std::string      pavarde_;
-    std::vector<int> paz_;
-    int              egz_;
-    double           rez_;
-public:
-    Studentas();                                          // numatytasis konstruktorius
-    Studentas(string, string, vector<int>, int);          // parametrinis konstruktorius
-    Studentas(const Studentas&);                          // kopijavimo konstruktorius
-    Studentas(Studentas&&) noexcept;                      // perkėlimo konstruktorius
-    ~Studentas();                                         // destruktorius
-    Studentas& operator=(const Studentas&);               // kopijavimo priskyrimas
-    Studentas& operator=(Studentas&&) noexcept;           // perkėlimo priskyrimas
-    bool operator<(const Studentas&) const;
-    bool operator>(const Studentas&) const;
-    bool operator==(const Studentas&) const;
-    friend std::ostream& operator<<(std::ostream&, const Studentas&);
-    friend std::istream& operator>>(std::istream&, Studentas&);
-    // getteriai, setteriai, vidurkis(), mediana(), skaiciuotiRez()
-};
-```
+| Metodas                        | Aprasymas                                        |
+|--------------------------------|--------------------------------------------------|
+| `getVardas()`                  | Grazina varda                                    |
+| `getPavarde()`                 | Grazina pavarde                                  |
+| `getPaz()`                     | Grazina paazymiuu sarasa                         |
+| `getEgz()`                     | Grazina egzamino pazymi                          |
+| `getRez()`                     | Grazina galutini rezultata                       |
+| `getPazSkaicius()`             | Grazina pazymiu skaiciu                          |
+| `setVardas(v)`                 | Nustato varda                                    |
+| `setPavarde(p)`                | Nustato pavarde                                  |
+| `setEgz(e)`                    | Nustato egzamino pazymi                          |
+| `setRez(r)`                    | Nustato galutini rezultata                       |
+| `addPazymys(p)`                | Prideda pazymi i sarasa                          |
+| `clearPazymiai()`              | Isvalo pazymiu sarasa                            |
+| `vidurkis()`                   | Skaiciuoja namu darbu vidurkis                   |
+| `mediana()`                    | Skaiciuoja namu darbu mediana                    |
+| `skaiciuotiRez(tipas)`         | Skaiciuoja ir issaugo galutini rezultata         |
+| `islaike()`                    | Grazina `true` jei `rez_ >= 5.0`                 |
 
 ### Failų struktūra
 
-| v1.0 (pašalinti)                  | v1.1 (naudoti)                    |
-|-----------------------------------|-----------------------------------|
-| `vector.h` + `vector_funkc.cpp`   | `studentas.h` + `studentas.cpp`   |
-| `list.h` + `list_funkc.cpp`       | `vector_ops.h` + `vector_ops.cpp` |
-| `deque.h` + `deque_funkc.cpp`     | `list_ops.h` + `list_ops.cpp`     |
-|                                   | `deque_ops.h` + `deque_ops.cpp`   |
+| Failas              | Aprasymas                                      |
+|---------------------|------------------------------------------------|
+| `studentas.h`       | Klases deklaracija                             |
+| `studentas.cpp`     | Klases realizacija                             |
+| `vector_ops.h/cpp`  | Operacijos su `std::vector<Studentas>`         |
+| `list_ops.h/cpp`    | Operacijos su `std::list<Studentas>`           |
+| `deque_ops.h/cpp`   | Operacijos su `std::deque<Studentas>`          |
+| `testavimas_klases.cpp` | Visu klases metodu testavimas              |
 
 ---
 
-## Spartos palyginimas: struct vs class
+## Rule of Five
+
+Pagal **Rule of Five** realizuoti visi penki specialieji metodai:
+
+```cpp
+// 1. Numatytasis konstruktorius
+Studentas();
+
+// 2. Kopijavimo konstruktorius – gili kopija visu lauku
+Studentas(const Studentas& other);
+
+// 3. Perkelimo konstruktorius – perima resursus, original palieka tuscia
+Studentas(Studentas&& other) noexcept;
+
+// 4. Destruktorius – isvalo paz_ vektoriu
+~Studentas();
+
+// 5. Kopijavimo priskyrimo operatorius – apsaugotas nuo saves priskyrimo
+Studentas& operator=(const Studentas& other);
+
+// 6. Perkelimo priskyrimo operatorius – apsaugotas nuo saves priskyrimo
+Studentas& operator=(Studentas&& other) noexcept;
+```
+
+### Kodel svarbus Rule of Five?
+
+`Studentas` klase valdo dinaminius resursus (`std::vector<int> paz_`). Be aiškiai apibrėžtu specialiuju metodu kompiliatorius generuotu pavirsutines kopijas – du objektai rodytų į ta pati atminties sriti, kas sukeltų klaidas trinant objektus. Rule of Five garantuoja:
+
+- **Kopijavimo konstruktorius** – sukuria nepriklausoma kopija (gili kopija).
+- **Perkelimo konstruktorius** – efektyviai perkelia resursus be kopijavimo (O(1) vietoj O(n)).
+- **Destruktorius** – teisingai atlaisvina atminti.
+- **Kopijavimo priskyrimas** – apsaugotas nuo `a = a` situacijos.
+- **Perkelimo priskyrimas** – efektyvus priskyrimas su `std::move`.
+
+### Kopijavimo vs Perkelimo konstruktorius
+
+```cpp
+Studentas a("Jonas", "Jonaitis", {8, 9, 7}, 10);
+
+// Kopijavimo konstruktorius – a lieka nepakites
+Studentas b(a);
+// b ir a yra nepriklausomi objektai
+
+// Perkelimo konstruktorius – a tampa tuscias
+Studentas c(std::move(a));
+// c turi visus a duomenis, a.getVardas() == ""
+```
+
+---
+
+## Perdengti ivesties ir isvesties operatoriai
+
+`Studentas` klaseje perdengti `operator>>` ir `operator<<` leidzia naudoti standartine C++ srauto sintakse duomenu ivedimui ir isvedimui. Svarbu tai, kad **abu operatoriai veikia su bet kokiu srautu** – nesvarbu ar tai ekranas, failas ar eilute atmintyje.
+
+---
+
+### operator>> (ivestis)
+
+```cpp
+friend std::istream& operator>>(std::istream& is, Studentas& s);
+```
+
+**Kaip veikia:** nuskaito viena eilute is srauto. Pirmas zodis – vardas, antras – pavarde, visi sekantys skaiciai – namu darbu pazymiai, **paskutinis skaicius – egzaminas**.
+
+**Ivesties formatas:**
+```
+Vardas Pavarde nd1 nd2 nd3 ... ndN egzaminas
+Jonas  Jonaitis  8   9   7        10
+```
+
+#### 1. Rankinis ivedimas (std::cin)
+
+Vartotojas pats iraso duomenis i terminala:
+
+```cpp
+Studentas s;
+std::cout << "Iveskite studenta (Vardas Pavarde paz1 paz2 ... egz): ";
+std::cin >> s;
+
+// Vartotojas iveda:  Jonas Jonaitis 8 9 7 10
+// s.getVardas()   -> "Jonas"
+// s.getPavarde()  -> "Jonaitis"
+// s.getPaz()      -> {8, 9, 7}
+// s.getEgz()      -> 10
+```
+
+#### 2. Automatinis ivedimas (std::istringstream)
+
+Duomenys generuojami programos viduje arba suformuojami is eilutes:
+
+```cpp
+Studentas s;
+std::istringstream iss("Jonas Jonaitis 8 9 7 10");
+iss >> s;
+
+// Rezultatas identiskas rankiniam ivedimui
+// s.getVardas()  -> "Jonas"
+// s.getEgz()     -> 10
+// s.getPaz()     -> {8, 9, 7}
+```
+
+#### 3. Ivedimas is failo (std::ifstream)
+
+Studentu failas turi antraste ir po jos po viena eilute kiekvienas studentas:
+
+```
+Vardas               Pavarde              ND1  ND2  ND3  ND4  ND5  Egz.
+Jonas20              Jonaitis20           3    5    7    2    4    6
+Petras21             Petraitis21          8    9    6    7    5    8
+```
+
+```cpp
+std::ifstream failas("studentai.txt");
+std::string antraste;
+std::getline(failas, antraste);   // praleisti antraste
+
+std::vector<Studentas> studentai;
+Studentas s;
+while (failas >> s)               // kol yra duomenu
+    studentai.push_back(s);
+
+// studentai[0].getVardas()  -> "Jonas20"
+// studentai[0].getEgz()     -> 6
+// studentai[0].getPaz()     -> {3, 5, 7, 2, 4}
+```
+
+---
+
+### operator<< (isvestis)
+
+```cpp
+friend std::ostream& operator<<(std::ostream& os, const Studentas& s);
+```
+
+**Kaip veikia:** isveda studenta suformatuota eilute. Pirma – vardas ir pavarde (plotis 15 simboliu), tada – pazymiu sarasas lauztuose skliaustuose, egzaminas ir galutinis rezultatas.
+
+**Isvesties formatas:**
+```
+Jonas          Jonaitis       [8 9 7] Egz: 10  Rez: 9.20
+```
+
+#### 1. Isvestis i ekrana (std::cout)
+
+```cpp
+Studentas s("Jonas", "Jonaitis", {8, 9, 7}, 10);
+s.skaiciuotiRez(1);
+std::cout << s << "\n";
+
+// Ekrane:
+// Jonas          Jonaitis       [8 9 7] Egz: 10  Rez: 9.20
+```
+
+#### 2. Isvestis i faila (std::ofstream)
+
+```cpp
+std::vector<Studentas> studentai = { ... };
+std::ofstream failas("rezultatai.txt");
+
+for (const auto& s : studentai)
+    failas << s << "\n";
+
+// rezultatai.txt turinys:
+// Jonas          Jonaitis       [8 9 7] Egz: 10  Rez: 9.20
+// Petras         Petraitis      [4 3 5] Egz: 4   Rez: 4.00
+```
+
+#### 3. Isvestis i string (std::ostringstream)
+
+Naudinga kai reikia studento duomenis suformatuoti kaip eilute, pvz. logavimui:
+
+```cpp
+Studentas s("Jonas", "Jonaitis", {8, 9, 7}, 10);
+s.skaiciuotiRez(1);
+
+std::ostringstream oss;
+oss << s;
+std::string tekstas = oss.str();
+// tekstas = "Jonas          Jonaitis       [8 9 7] Egz: 10  Rez: 9.20"
+```
+
+### Palyginimo operatoriai
+
+| Operatorius | Palyginimo pagrindas     | Aprasymas                  |
+|:-----------:|--------------------------|----------------------------|
+| `==`        | vardas + pavarde         | Tie patys duomenys?        |
+| `!=`        | vardas + pavarde         | Skirtingi duomenys?        |
+| `<`         | galutinis rezultatas     | Mazesnis rezultatas?       |
+| `>`         | galutinis rezultatas     | Didesnis rezultatas?       |
+| `<=`        | galutinis rezultatas     | Mazesnis arba lygus?       |
+| `>=`        | galutinis rezultatas     | Didesnis arba lygus?       |
+
+```cpp
+Studentas a("Jonas", "Jonaitis", {9,9}, 9);
+Studentas b("Petras", "Petraitis", {4,4}, 4);
+a.skaiciuotiRez(1); // rez_ = 9.0
+b.skaiciuotiRez(1); // rez_ = 4.0
+
+std::sort(studentai.begin(), studentai.end()); // naudoja operator<
+bool islaike = a >= b;                          // true
+bool skirtingi = a != b;                        // true (skirtingi vardai)
+```
+
+---
+
+## Klases testavimas
+
+Programa turi atskirą testavimo modulį `testavimas_klases.cpp` (parinktis **7** meniu).  
+Tikrinamos **7 sekcijos**:
+
+| Sekcija                          | Tikrinamų testu sk. | Aprasymas                                    |
+|----------------------------------|:-------------------:|----------------------------------------------|
+| Konstruktoriai (Rule of Five)    |         20          | Visi 5 konstruktoriai ir destruktorius        |
+| Priskyrimo operatoriai           |         10          | Kopijavimo, perkelimo, grandininis, save=save |
+| Palyginimo operatoriai           |         10          | ==, !=, <, >, <=, >=                          |
+| Srautu operatoriai               |         13          | >> is istringstream, << i ostringstream       |
+| Metodai                          |         14          | vidurkis, mediana, skaiciuotiRez, islaike     |
+| Naudojimas su STL                |          3          | std::sort, std::find_if, std::partition       |
+| **Viso**                         |       **70+**       |                                               |
+
+### Testo pavyzdys
+
+```
+=======================================================
+   STUDENTAS KLASES TESTAVIMAS  (v1.2)
+=======================================================
+
+--- Konstruktoriai (Rule of Five) ---
+  [OK] Numatytasis: vardas tuscias
+  [OK] Numatytasis: pavarde tuscia
+  [OK] Parametrinis: vardas
+  [OK] Kopijavimo: gili kopija (b nepakito)
+  [OK] Perkelimo: originalas istusejo
+  [OK] Destruktorius: objektas sunaikintas be klaudu
+
+--- Srautu operatoriai ---
+  [OK] operator>>: vardas
+  [OK] operator>>: egzaminas (paskutinis)
+  [OK] operator<<: yra vardas
+  [OK] operator<<: yra Rez.
+
+=======================================================
+  Rezultatas: 70 / 70 testu pavyko
+  Visi testai pavyko!
+=======================================================
+```
+
+---
+### Testas 
+<img width="771" height="1262" alt="image" src="https://github.com/user-attachments/assets/c7c1a928-004c-4448-aae7-9cd2d7360dad" />
+<img width="809" height="1303" alt="image" src="https://github.com/user-attachments/assets/f9ea4c16-960f-4be9-b7b5-b315e471b0d1" />
+
+
+## Spartos palyginimas struct vs class
 
 ### Testavimo aplinka
 
@@ -152,14 +405,12 @@ public:
 | OS             | Linux x86-64                                  |
 | Kompiliatorius | g++ 13, `-std=c++17`                          |
 | Konteineris    | `std::vector`                                 |
-| Strategija     | S3 (`std::partition`) – greičiausia strategija|
+| Strategija     | S3 (`std::partition`) – greiciausia           |
 | Failai         | `studentai100000.txt`, `studentai1000000.txt` |
 
----
+### 100 000 studentu
 
-### 100 000 studentų
-
-| Tipas   | Vėliavėlė | Skaitymas (s) | Rūšiavimas (s) | Skirstymas (s) | **Bendras (s)** | Failo dydis |
+| Tipas   | Veliavele | Skaitymas (s) | Rusiavimas (s) | Skirstymas (s) | **Bendras (s)** | Failo dydis |
 |---------|:---------:|:-------------:|:--------------:|:--------------:|:---------------:|:-----------:|
 | struct  | -O0       |   0.215042    |   0.117661     |   0.023081     |   **0.355784**  |   323 KB    |
 | class   | -O0       |   0.221276    |   0.168335     |   0.019804     |   **0.409415**  |   369 KB    |
@@ -170,11 +421,9 @@ public:
 | struct  | -O3       |   0.154266    |   0.019151     |   0.009373     |   **0.182790**  |   254 KB    |
 | class   | -O3       |   0.128392    |   0.038806     |   0.008507     |   **0.175704**  |   187 KB    |
 
----
+### 1 000 000 studentu
 
-### 1 000 000 studentų
-
-| Tipas   | Vėliavėlė | Skaitymas (s) | Rūšiavimas (s) | Skirstymas (s) | **Bendras (s)** | Failo dydis |
+| Tipas   | Veliavele | Skaitymas (s) | Rusiavimas (s) | Skirstymas (s) | **Bendras (s)** | Failo dydis |
 |---------|:---------:|:-------------:|:--------------:|:--------------:|:---------------:|:-----------:|
 | struct  | -O0       |   2.028479    |   1.432467     |   0.282285     |   **3.743231**  |   323 KB    |
 | class   | -O0       |   2.102207    |   2.087393     |   0.277633     |   **4.467233**  |   369 KB    |
@@ -187,40 +436,46 @@ public:
 
 ---
 
-## Optimizavimo vėliavėlių analizė
+## Optimizavimo veliaveliuanalize
 
-### Pastebėjimai
+### Pastebejmai
 
 **struct vs class:**
-- **-O0:** `class` versija lėtesnė ~15–19%. Rūšiavimas lėtesnis, nes getter'iai (`getRez()`) nėra inline'inti ir kiekvienas palyginimas `std::sort` viduje reikalauja funkcijos iškvietimo.
-- **-O1/O2/O3:** Skirtumas išlieka ~17–22% dėl to, kad `class` versija turi daugiau abstrakcijos sluoksnių, tačiau skirstymo fazėje abu praktiškai vienodi.
-- `class` versijos **exe failas mažesnis** su -O1/O2/O3 – kompiliatorius efektyviau inline'ina metodus ir pašalina perteklinį kodą.
+- **-O0:** `class` versija letesne ~15-19%. Rusiavimas letesnis, nes getter'iai (`getRez()`) nera inline'inti – kiekvienas palyginimas `std::sort` viduje reikalauja funkcijos iskvietimo.
+- **-O1/O2/O3:** Skirtumas islieka ~17-22%. Skirstymo fazeje abu praktiskai vienodi.
+- `class` versijos **exe failas mazesnis** su -O1/O2/O3 – kompiliatorius efektyviau inline'ina metodus.
 
 **Optimizavimo lygiai:**
-- **-O0 → -O1** didžiausias pagreitėjimas: ~2–2.5× abiem versijoms. Pagrindinis inlining, dead-code elimination.
-- **-O1 → -O2** minimalus pokytis – I/O (`std::getline`, `std::stringstream`) dominuoja ir mažai reaguoja į optimizavimą.
-- **-O2 → -O3** taip pat nereikšmingas – kodas nėra SIMD/vektorizacijos kandidatas.
+- **-O0 -> -O1** didziausias pagreitejimas: ~2-2.5x abiem versijoms.
+- **-O1 -> -O2** minimalus pokytis – I/O dominuoja ir mazai reaguoja i optimizavima.
+- **-O2 -> -O3** taip pat nereiksminggas – kodas nera SIMD/vektorizacijos kandidatas.
 
 **Exe failo dydis:**
-- Mažiausias failas su `class` + `-O1` (173 KB) – kompiliatorius agresyviai inline'ina ir pašalina nereikalingą kodą.
-- Didžiausias failas su `struct` + `-O3` (254 KB) – agresyvios optimizacijos padidina kodo dydį dėl loop unrolling.
+- Maziausia failas: `class` + `-O1` (173 KB).
+- Didziausia failas: `struct` + `-O3` (254 KB) – del loop unrolling.
 
-**Rekomendacija:** naudoti **`-O1`** arba **`-O2`** – geriausias greičio ir kompiliavimo laiko bei failo dydžio balansas.
+**Rekomendacija:** naudoti **`-O2`** – geriausias greicio ir failo dydzio balansas.
 
 ---
 
-## Relizų aprašas
+## Reliazu aprasas
+
+### v1.2
+- Papildyti visi palyginimo operatoriai: `!=`, `<=`, `>=`.
+- Sukurtas issamaus klases testavimo modulis `testavimas_klases.cpp`.
+- Testuojami visi Rule of Five metodai, srautu operatoriai, metodai ir STL integracija.
+- Atnaujintas `README.md` su operatoriu aprasymu ir naudojimo pavyzdziais.
+- Prideta 7 meniu parinktis – klases testavimas.
 
 ### v1.1
-- Studento struktūra (`struct`) pakeista į klasę (`class`).
-- Realizuoti visi konstruktoriai ir destruktorius (Rule of Five).
-- Realizuoti palyginimo operatoriai (`<`, `>`, `==`) ir srautų operatoriai (`<<`, `>>`).
-- Vietoj trijų atskirų struktūrų – viena universali `Studentas` klasė visiems konteineriams.
-- Atliktas spartos palyginimas: `struct` vs `class` su visais optimizavimo lygiais.
-- Atnaujintas `README.md` su matavimų lentelėmis.
+- Studento struktura (`struct`) pakeista i klase (`class`).
+- Realizuoti visi Rule of Five konstruktoriai ir destruktorius.
+- Realizuoti srautu operatoriai `<<` ir `>>`.
+- Viena universali `Studentas` klase visiems STL konteineriams.
+- Atliktas spartos palyginimas: `struct` vs `class`.
 
 ### v1.0
 - Realizuotos 3 skirstymo strategijos (S1/S2/S3) visiems trims konteineriams.
 - Naudojami STL algoritmai: `std::copy_if`, `std::remove_if`, `std::partition`, `list::splice`.
-- Lyginamasis tyrimas: 3 konteineriai × 3 strategijos × 5 failų dydžiai.
-- Pridėtas `Makefile`.
+- Lyginamasis tyrimas: 3 konteineriai x 3 strategijos x 5 failu dydziai.
+- Pridetas `Makefile`.
