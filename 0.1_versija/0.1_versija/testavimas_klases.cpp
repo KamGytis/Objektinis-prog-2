@@ -70,5 +70,17 @@ static void testuoti_konstruktorius() {
 	tikrinti(d.getPavarde() == "Onaite", "Perkelimo pavarde");
 	tikrinti(d.getEgz() == 7, "Perkelimo egzaminas");
 	tikrinti(d.getPazSkaicius() == 2, "Perkelimo paz skaicius");
-	tikrinti(d_orig.getPazSkaicius() == 0, "Perkelimo orginalas tuscias";
+	tikrinti(d_orig.getPazSkaicius() == 0, "Perkelimo orginalas tuscias");
 	tikrinti(d_orig.getVardas() == "", "Perkelimo orginalo vardas tuscias");
+
+
+	//Destruktorius.
+
+	{
+		Studentas laikinas("Laikinas", "Laikinaitis", { 1, 2 }, 3);
+		void(laikinas); // Kad destruktorius nebutu pazymetas kaip nenaudojamas
+		}
+	tikrinti(true, "Destruktorius iskvieciamas (neuzstringa)");
+	}
+}
+
