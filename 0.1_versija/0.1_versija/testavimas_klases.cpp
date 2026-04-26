@@ -46,7 +46,7 @@ static void testuoti_konstruktorius() {
 	tikrinti(b.getVardas() == "Jonas", "Parametrinis vardas");
 	tikrinti(b.getPavarde() == "Jonaitis", "Parametrinis pavarde");
 	tikrinti(b.getEgz() == 10, "Parametrinis egzaminas");
-	tikrinti(b.getRez() == 0.0, "Parametrinis rezultatas (prieš skaiciavima)");
+	tikrinti(b.getRez() == 0.0, "Parametrinis rezultatas (pries skaiciavima)");
 	tikrinti(b.getPazSkaicius() == 3, "Parametrinis paz skaicius");
 	tikrinti(b.getPaz()[0] ==8, "Parametrinis pazymiai paz[0] = 8");
 
@@ -244,4 +244,124 @@ static void testuoti_srautu_operatorius() {
 	oss2 << d;
 	tikrinti(oss2.str().find("Inga") != std::string::npos,
 		"operator<< po >>: vardas isvestyje");
+
+}
+
+static void testuoti_metodus() {
+	sekcija("Metodai: vidurkis, mediana, skaiciuotiRez, islaike");
+
+	// vidurkis
+	Studentas a("X", "Y", { 6, 8, 10 }, 0);
+	tikrinti(std::abs(a.vidurkis() - 8.0) < 1e-9, "vidurkis(): (6+8+10)/3 = 8.0");
+
+	// vidurkis su tusciu sarasu
+	Studentas b;
+	tikrinti(b.vidurkis() == 0.0, "vidurkis(): tuscias sarasas = 0.0");
+
+	// mediana – nelyginis skaicius
+	Studentas c("X", "Y", { 3, 9, 5 }, 0);
+	tikrinti(std::abs(c.mediana() - 5.0) < 1e-9, "mediana(): {3,9,5} -> 5.0");
+
+	// mediana – lyginis skaicius
+	Studentas d("X", "Y", { 2, 4, 6, 8 }, 0);
+	tikrinti(std::abs(d.mediana() - 5.0) < 1e-9, "mediana(): {2,4,6,8} -> 5.0");
+
+	// skaiciuotiRez su vidurkiu
+	Studentas e("X", "Y", { 8, 10, 6 }, 8);
+	e.skaiciuotiRez(1); // vidurkis = 8, rez = 8*0.4 + 8*0.6 = 8.0
+	tikrinti(std::abs(e.getRez() - 8.0) < 1e-9, "skaiciuotiRez(1): rez = 8.0");
+
+	// skaiciuotiRez su mediana
+	Studentas f("X", "Y", { 4, 6, 8 }, 10);
+	f.skaiciuotiRez(2); // mediana = 6, rez = 6*0.4 + 10*0.6 = 2.4+6.0 = 8.4
+	tikrinti(std::abs(f.getRez() - 8.4) < 1e-9, "skaiciuotiRez(2): rez = 8.4");
+
+	// islaike
+	Studentas g("X", "Y", {}, 0);
+	g.setRez(4.9);
+	tikrinti(!g.islaike(), "islaike(): 4.9 < 5.0 -> false");
+	g.setRez(5.0);
+	tikrinti(g.islaike(), "islaike(): 5.0 >= 5.0 -> true");
+	g.setRez(8.5);
+	tikrinti(g.islaike(), "islaike(): 8.5 >= 5.0 -> true");
+
+	// addPazymys ir clearPazymiai
+	Studentas h;
+	h.addPazymys(7);
+	h.addPazymys(9);
+	tikrinti(h.getPazSkaicius() == 2, "addPazymys(): 2 pazymiai");
+	h.clearPazymiai();
+	tikrinti(h.getPazSkaicius() == 0, "clearPazymiai(): sarasas tuscias");
+
+	// getteriai ir setteriai
+	Studentas i;
+	i.setVardas("Inga");
+	i.setPavarde("Ingaite");
+	i.setEgz(7);
+	i.setRez(6.5);
+	tikrinti(i.getVardas() == "Inga", "setter/getter: vardas");
+	tikrinti(i.getPavarde() == "Ingaite", "setter/getter: pavarde");
+	tikrinti(i.getEgz() == 7, "setter/getter: egz");
+	tikrinti(std::abs(i.getRez() - 6.5) < 1e-9, "setter/getter: rez");
+}
+
+static void testuoti_su_stl() {
+	sekcija("Naudojimas su STL konteineriais ir algoritmais");
+
+	std::vector<Studentas> studentai = {
+		Studentas("C", "C", {4,4}, 4),
+		Studentas("A", "A", {9,9}, 9),
+		Studentas("B", "B", {6,6}, 6)
+	};
+	for (auto& s : studentai) s.skaiciuotiRez(1);
+
+	// std::sort su operator<
+	std::sort(studentai.begin(), studentai.end());
+	tikrinti(studentai[0].getVardas() == "C" &&
+		studentai[1].getVardas() == "B" &&
+		studentai[2].getVardas() == "A",
+		"std::sort su operator<: rusiuoja pagal rez_");
+
+	// std::find_if su islaike
+	auto pirmas_islaikes = std::find_if(studentai.begin(), studentai.end(),
+		[](const Studentas& s) { return s.islaike(); });
+	tikrinti(pirmas_islaikes != studentai.end() &&
+		pirmas_islaikes->getVardas() == "B",
+		"std::find_if su islaike(): randa pirma islaikiusi");
+	// std::partition su operator>=
+	std::vector<Studentas> v = studentai;
+	auto pivot = std::partition(v.begin(), v.end(),
+		[](const Studentas& s) { return s.islaike(); });
+	int islaike = (int)std::distance(v.begin(), pivot);
+	int neislaike = (int)std::distance(pivot, v.end());
+	tikrinti(islaike == 2 && neislaike == 1,
+		"std::partition + islaike(): 2 islaike, 1 neislaike");
+}
+
+// PAGRINDINIS TESTO KVIETIMAS
+
+void atlikti_klases_testus() {
+	std::cout << "\n";
+	std::cout << std::string(55, '=') << "\n";
+	std::cout << "   STUDENTAS KLASES TESTAVIMAS  (v1.2)\n";
+	std::cout << std::string(55, '=') << "\n";
+
+	testuoti_konstruktorius();
+	testuoti_priskyrima();
+	testuoti_palyginimo_operatorius();
+	testuoti_sudetinius_operatorius();
+	testuoti_srautu_operatorius();
+	testuoti_metodus();
+	testuoti_su_stl();
+
+	std::cout << "\n" << std::string(55, '=') << "\n";
+	std::cout << "  Rezultatas: " << testai_pavyke << " / "
+		<< testai_is_viso << " testu pavyko\n";
+	if (testai_pavyke == testai_is_viso)
+		std::cout << "  Visi testai pavyko!\n";
+	else
+		std::cout << "  DEMESIO: "
+		<< (testai_is_viso - testai_pavyke)
+		<< " testai nepavyko!\n";
+	std::cout << std::string(55, '=') << "\n";
 }
