@@ -119,3 +119,87 @@ static void testuoti_priskyrima() {
 	z = y = x;
 	tikrinti(y.getVardas() == "A" && z.getVardas() == "A", "Grandininis priskyrimas y = z = x");
 }
+
+static void testuoti_palyginimo_operatorius() {
+
+	sekcija("Palyginimo operatoriai");
+
+	Studentas a("Jonas", "Jonaitis", { 8, 9, 7 }, 10);
+	Studentas b("Petras", "Petraitis", { 4, 3, 5 }, 4);
+	a.skaiciuotiRez(1); // rez_ = 8.0*0.4 + 10*0.6 = 3.2+6 = 9.2  (vidurkis=(8+9+7)/3=8)
+	b.skaiciuotiRez(1); // rez_ = 4.0*0.4 + 4*0.6  = 1.6+2.4 = 4.0
+
+	tikrinti(a > b, "operator>  : a.rez > b.rez");
+	tikrinti(b < a, "operator<  : b.rez < a.rez");
+	tikrinti(a >= b, "operator>= : a.rez >= b.rez");
+	tikrinti(b <= a, "operator<= : b.rez <= a.rez");
+
+	//Lygybe - pagal varda ir pavarde
+
+	Studentas c("Jonas", "Jonaitis", { 1 }, 1);
+	tikrinti(a == c, "operator== : tas pats vardas ir pavarde");
+	tikrinti(a != b, "operator!= : skirtingas vardas ir pavarde");
+
+	//lygus sau
+	tikrinti(a == a, "operator== : lygus sau");
+	tikrinti(!(a != a), "operator!= : nelygus sau");
+
+	// <= ir >= su lygiais rezultatais
+
+	Studentas d("Dalia", "Dalaite", { 8, 9 ,7 }, 10);
+	d.skaiciuotiRez(1); //tas patas rezultatas kaip a, bet skirtingas vardas ir pavarde
+	tikrinti(a <= d, "operator<= lygus rez (a <= d)");
+	tikrinti(a >= d, "operator>= lygus rez (a >= d)");
+
+}
+
+static void testuoti_sudetinius_operatorius() {
+	sekcija("Sudetiniai operatoriai");
+
+	Studentas a("Jonas", "Jonaitis", {}, 0);
+	tikrinti(a.getPazSkaicius() == 0, "operator+= pradzia paz skaicius");
+
+	//operator+=
+	a += 8;
+	tikrinti(a.getPazSkaicius() == 1, "operator+= paz skaicius po 1 pazymio");
+	tikrinti(a.getPaz()[0] == 8, "operator+= pazymys 8 pridetas");
+
+	a += 6;
+	a += 10;
+	tikrinti(a.getPazSkaicius() == 3, "operator+= paz skaicius po 3 pazymiu");
+
+	//Grandininis +=
+	Studentas b("Ona", "Onaite", {}, 0);
+	b += 5;
+	b += 7;
+	tikrinti(b.getPazSkaicius() == 2, "Grandininis operator+= paz skaicius po 2 pazymiu");
+
+	//operator+= su neteisingu pazymiu - turi mesto isimti
+
+	bool isimtis_meta = false;
+	try { a += 11; }
+	catch (const std::out_of_range&) { isimtis_meta = true; }
+	tikrinti(isimtis_meta, "operator+=: meta isimti pazymiu > 10");
+
+	isimtis_meta = false;
+	try { a += 0; }
+	catch (const std::out_of_range&) { isimtis_meta = true; }
+	tikrinti(isimtis_meta, "operator+=: meta isimti pazymiu < 1");
+
+	//operator[] skaitymas
+	Studentas c("X", "Y", { 3, 7, 9 }, 5);
+	tikrinti(c[0] == 3, "operator[] skaitymas paz[0] == 3");
+	tikrinti(c[1] == 7, "operator[] skaitymas paz[1] == 7");
+	tikrinti(c[2] == 9, "operator[] skaitymas paz[2] == 9");
+
+	//operator[] rasymas
+	c[0] = 10;
+	tikrinti(c[0] == 10, "operator[] rasymas paz[0] == 10");
+
+	//operator [] su per dideliu indeksu turi mesti isimti
+	isimtis_meta = false;
+	try { (void)c[99]; }
+	catch (const std::out_of_range&) { isimtis_meta = true; }
+	tikrinti(isimtis_meta, "operator[]: meta isimti del per didelio indekso");
+
+}
