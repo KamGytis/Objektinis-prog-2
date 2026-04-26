@@ -14,6 +14,7 @@
 void generuoti_testu_failus();
 void generuoti_faila(const std::string&, int, int);
 void atlikti_visus_testus();
+void atlikti_klases_testus();
 
 // Skaitymas is failo - kiekvienas konteineris
 
@@ -149,7 +150,8 @@ int main() {
             << "4 - Skaityti is failo (deque)\n"
             << "5 - Testavimas (visi konteineriai)\n"
             << "6 - Generuoti studentu failus\n"
-            << "7 - Baigti\n"
+            << "7 - Testavimas (klases)\n"
+            << "8 - Baigti\n"
             << "Pasirinkimas: ";
 
         int p;
@@ -180,7 +182,8 @@ int main() {
             }
             break;
         }
-        case 7: std::cout << "Programa baigta.\n"; return 0;
+        case 7: atlikti_klases_testus(); break;
+        case 8: std::cout << "Programa baigta.\n"; return 0;
         default: std::cerr << "Tokio pasirinkimo nera.\n";
         }
     }

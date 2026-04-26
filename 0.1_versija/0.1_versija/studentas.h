@@ -47,14 +47,6 @@ public:
     bool operator>=(const Studentas& other) const;
     bool operator!=(const Studentas& other) const;
 
-	// prideti pazymi prie esamu
-    Studentas& operator+=(int pazymys);
-
-	//indeksavimo operatorius - grazina pazymi pagal indeksa
-    int  operator[](size_t i) const;
-    int& operator[](size_t i);
-
-
     //  Srautu operatoriai 
     friend std::ostream& operator<<(std::ostream& os, const Studentas& s);
     friend std::istream& operator>>(std::istream& is, Studentas& s);

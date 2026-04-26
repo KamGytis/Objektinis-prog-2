@@ -153,56 +153,6 @@ static void testuoti_palyginimo_operatorius() {
 
 }
 
-static void testuoti_sudetinius_operatorius() {
-	sekcija("Sudetiniai operatoriai");
-
-	Studentas a("Jonas", "Jonaitis", {}, 0);
-	tikrinti(a.getPazSkaicius() == 0, "operator+= pradzia paz skaicius");
-
-	//operator+=
-	a += 8;
-	tikrinti(a.getPazSkaicius() == 1, "operator+= paz skaicius po 1 pazymio");
-	tikrinti(a.getPaz()[0] == 8, "operator+= pazymys 8 pridetas");
-
-	a += 6;
-	a += 10;
-	tikrinti(a.getPazSkaicius() == 3, "operator+= paz skaicius po 3 pazymiu");
-
-	//Grandininis +=
-	Studentas b("Ona", "Onaite", {}, 0);
-	b += 5;
-	b += 7;
-	tikrinti(b.getPazSkaicius() == 2, "Grandininis operator+= paz skaicius po 2 pazymiu");
-
-	//operator+= su neteisingu pazymiu - turi mesto isimti
-
-	bool isimtis_meta = false;
-	try { a += 11; }
-	catch (const std::out_of_range&) { isimtis_meta = true; }
-	tikrinti(isimtis_meta, "operator+=: meta isimti pazymiu > 10");
-
-	isimtis_meta = false;
-	try { a += 0; }
-	catch (const std::out_of_range&) { isimtis_meta = true; }
-	tikrinti(isimtis_meta, "operator+=: meta isimti pazymiu < 1");
-
-	//operator[] skaitymas
-	Studentas c("X", "Y", { 3, 7, 9 }, 5);
-	tikrinti(c[0] == 3, "operator[] skaitymas paz[0] == 3");
-	tikrinti(c[1] == 7, "operator[] skaitymas paz[1] == 7");
-	tikrinti(c[2] == 9, "operator[] skaitymas paz[2] == 9");
-
-	//operator[] rasymas
-	c[0] = 10;
-	tikrinti(c[0] == 10, "operator[] rasymas paz[0] == 10");
-
-	//operator [] su per dideliu indeksu turi mesti isimti
-	isimtis_meta = false;
-	try { (void)c[99]; }
-	catch (const std::out_of_range&) { isimtis_meta = true; }
-	tikrinti(isimtis_meta, "operator[]: meta isimti del per didelio indekso");
-
-}
 
 static void testuoti_srautu_operatorius() {
 	sekcija("Srautu operatoriai");
@@ -349,7 +299,6 @@ void atlikti_klases_testus() {
 	testuoti_konstruktorius();
 	testuoti_priskyrima();
 	testuoti_palyginimo_operatorius();
-	testuoti_sudetinius_operatorius();
 	testuoti_srautu_operatorius();
 	testuoti_metodus();
 	testuoti_su_stl();
