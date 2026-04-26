@@ -203,3 +203,45 @@ static void testuoti_sudetinius_operatorius() {
 	tikrinti(isimtis_meta, "operator[]: meta isimti del per didelio indekso");
 
 }
+
+static void testuoti_srautu_operatorius() {
+	sekcija("Srautu operatoriai");
+
+	//opperator>> su istringstream
+	Studentas a;
+	std::istringstream iss("Jonas Jonaitis 8 9 7 10");
+	iss >> a;
+	tikrinti(a.getVardas() == "Jonas", "operator>> vardas");
+	tikrinti(a.getPavarde() == "Jonaitis", "operator>> pavarde");
+	tikrinti(a.getPazSkaicius() == 3, "operator>> paz skaicius");
+	tikrinti(a.getPaz()[0] == 8, "operator>> pazymiai paz[0] == 8");
+	tikrinti(a.getPaz()[2] == 7, "operator>> pazymiai paz[2] == 7");
+
+	//operator>> su vienu skaiciumi (tik egzaminas,0 namu darbu)
+	Studentas b;
+	std::istringstream iss2("Ona Onaite 5");
+	iss2 >> b;
+	tikrinti(b.getEgz() == 5, "operator>> egzaminas");
+	tikrinti(b.getPazSkaicius() == 0, "operator>> paz skaicius 0");
+
+	//operator<< su ostringstream
+	Studentas c("Petras", "Petraitis", { 6,8 }, 9);
+	c.skaiciuotiRez(1);
+	std::ostringstream oss;
+	oss << c;
+	std::string isvestis = oss.str();
+
+	tikrinti(isvestis.find("Petras") != std::string::npos, "operator<<: yra vardas");
+	tikrinti(isvestis.find("Petraitis") != std::string::npos, "operator<<: yra pavarde");
+	tikrinti(isvestis.find("Egz") != std::string::npos, "operator<<: yra Egz.");
+	tikrinti(isvestis.find("Rez") != std::string::npos, "operator<<: yra Rez.");
+
+	// Apvalus testas: >> tada <<
+	Studentas d;
+	std::istringstream iss3("Inga Ingaite 7 8 9 6");
+	iss3 >> d;
+	std::ostringstream oss2;
+	oss2 << d;
+	tikrinti(oss2.str().find("Inga") != std::string::npos,
+		"operator<< po >>: vardas isvestyje");
+}
