@@ -30,3 +30,34 @@ static void sekcija (const std::string& pavadinimas) {
 
 static void testuoti_konstruktorius() {
 	sekcija("Konstruktoriai (Rules of five)");
+
+	//Numatyti konstruktoriai
+
+	Studentas a;
+	tikrinti(a.getVardas() == "", "Numatytasis vardas tuscias");
+	tikrinti(a.getPavarde() == "", "Numatytasis pavarde tuscias");
+	tikrinti(a.getEgz() == 0, "Numatytasis egzaminas 0");
+	tikrinti(a.getRez() == 0.0, "Numatytasis rezultatas 0.0");
+	tikrinti(a.getPaz() == 0, "Numatytasis paz saras tuscias");
+
+	//Parametriniai konstruktoriai
+
+	Studentas b("Jonas", "Jonaitis", { 8, 9, 7 }, 10);
+	tikrinti(b.getVardas() == "Jonas", "Parametrinis vardas");
+	tikrinti(b.getPavarde() == "Jonaitis", "Parametrinis pavarde");
+	tikrinti(b.getEgz() == 10, "Parametrinis egzaminas");
+	tikrinti(b.getRez() == 0.0, "Parametrinis rezultatas (prieš skaiciavima)");
+	tikrinti(b.getPazSkaicius() == 3, "Parametrinis paz skaicius");
+	tikrinti(b.getPaz()[0] ==8, "Parametrinis pazymiai paz[0] = 8");
+
+	//Kopijavimo konstruktorius
+
+	Studentas c(b);
+
+	tikrinti(c.getVardas() == b.getVardas, "Kopijavimo vardas sutampa");
+	tikrinti(c.getPavarde() == b.getPavarde(), "Kopijavimo pavarde sutampa");
+	tikrinti(c.getEgz() == b.getEgz(), "Kopijavimo egzaminas sutampa");
+	tikrinti(c.getPazSkaicius() == b.getPazSkaicius(), "Kopijavimo paz skaicius sutampa");
+	tikrinti(c.getPaz() == b.getPaz(), "Kopijavimo pazymiai sutampa");
+	c.setVardas("Petras");
+	tikrinti(b.getVardas() == "Jonas", "Kopijavimo gili kopija (b) nepakito");
