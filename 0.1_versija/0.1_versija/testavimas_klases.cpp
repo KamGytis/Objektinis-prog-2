@@ -78,9 +78,44 @@ static void testuoti_konstruktorius() {
 
 	{
 		Studentas laikinas("Laikinas", "Laikinaitis", { 1, 2 }, 3);
-		void(laikinas); // Kad destruktorius nebutu pazymetas kaip nenaudojamas
+		(void)laikinas; // Kad destruktorius nebutu pazymetas kaip nenaudojamas
 		}
 	tikrinti(true, "Destruktorius iskvieciamas (neuzstringa)");
 	}
-}
 
+
+static void testuoti_priskyrima() {
+	sekcija("Priskyrimo operatoriai (Rule of Five)");
+
+	Studentas a("Jonas", "Jonaitis", { 8, 9}, 10);
+	Studentas b;
+
+	//kopijavimo priskyrimo operatorius
+	b = a;
+	tikrinti(b.getVardas() == "Jonas", "Kopijavimo priskyrimo vardas");
+	tikrinti(b.getPavarde() == "Jonaitis", "Kopijavimo priskyrimo pavarde");
+	tikrinti(b.getEgz() == 10, "Kopijavimas priskyrimas egz");
+	tikrinti(b.getPaz() == a.getPaz(), "Kopijavimo priskyrimo pazymiai sutampa");
+	//Gilios kopijos tikrinimas
+	b.setVardas("kitas");
+	tikrinti(a.getVardas() == "Jonas", "Kopijavimo priskyrimo gili kopija (a) nepakito");
+
+	//saves priskyrimo operatorius
+	a = a;
+	tikrinti(a.getVardas() == "Jonas", "Saves priskyrimo vardas nepakito");
+
+	//perkelimo priskyrimo operatorius
+
+	Studentas c("Ona", "Onaite", { 5, 6 }, 7);
+	Studentas d;
+	d = std::move(c);
+	tikrinti(d.getVardas() == "Ona", "Perkelimo priskyrimo vardas");
+	tikrinti(d.getPazSkaicius() == 2, "Perkelimo priskyrimo paz skaicius");
+	tikrinti(c.getVardas() == "", "Perkelimo priskyrimo originalo vardas tuscias");
+
+	//Grandininis priskyrimas
+	Studentas x("A", "B", { 1 }, 2);
+	Studentas y, z;
+	z = y = x;
+	tikrinti(y.getVardas() == "A" && z.getVardas() == "A", "Grandininis priskyrimas y = z = x");
+}
