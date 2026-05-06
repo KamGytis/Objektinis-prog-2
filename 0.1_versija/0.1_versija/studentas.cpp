@@ -7,7 +7,7 @@
 
 //  Numatytasis konstruktorius 
 Studentas::Studentas()
-    : vardas_(""), pavarde_(""), paz_(), egz_(0), rez_(0.0) {
+    : Zmogus(), paz_(), egz_(0), rez_(0.0) {
 }
 
 //  Parametrinis konstruktorius 
@@ -15,13 +15,12 @@ Studentas::Studentas(const std::string& vardas,
     const std::string& pavarde,
     const std::vector<int>& paz,
     int egz)
-    : vardas_(vardas), pavarde_(pavarde), paz_(paz), egz_(egz), rez_(0.0) {
+    : Zmogus(vardas, pavarde), paz_(paz), egz_(egz), rez_(0.0) {
 }
 
 //  Kopijavimo konstruktorius 
 Studentas::Studentas(const Studentas& other)
-    : vardas_(other.vardas_),
-    pavarde_(other.pavarde_),
+    : Zmogus(other),        // kopijuoja vardas_, pavarde_
     paz_(other.paz_),
     egz_(other.egz_),
     rez_(other.rez_) {
@@ -29,8 +28,7 @@ Studentas::Studentas(const Studentas& other)
 
 // Perkelimo konstruktorius 
 Studentas::Studentas(Studentas&& other) noexcept
-    : vardas_(std::move(other.vardas_)),
-    pavarde_(std::move(other.pavarde_)),
+    : Zmogus(std::move(other)),   // perkelia vardas_, pavarde_
     paz_(std::move(other.paz_)),
     egz_(other.egz_),
     rez_(other.rez_) {
@@ -38,7 +36,8 @@ Studentas::Studentas(Studentas&& other) noexcept
     other.rez_ = 0.0;
 }
 
-//  Destruktorius 
+//  Destruktorius  - paz_ isvalomas automatiskai
+// grandinine tvarka isskviecia Zmogus::~Zmogus()
 Studentas::~Studentas() {
     paz_.clear();
 }
@@ -46,8 +45,7 @@ Studentas::~Studentas() {
 //  Kopijavimo priskyrimo operatorius 
 Studentas& Studentas::operator=(const Studentas& other) {
     if (this != &other) {
-        vardas_ = other.vardas_;
-        pavarde_ = other.pavarde_;
+        Zmogus::operator=(other);  // kopijuoja vardas_, pavarde_
         paz_ = other.paz_;
         egz_ = other.egz_;
         rez_ = other.rez_;
@@ -58,8 +56,7 @@ Studentas& Studentas::operator=(const Studentas& other) {
 //  Perkelimo priskyrimo operatorius
 Studentas& Studentas::operator=(Studentas&& other) noexcept {
     if (this != &other) {
-        vardas_ = std::move(other.vardas_);
-        pavarde_ = std::move(other.pavarde_);
+        Zmogus::operator=(std::move(other)); // perkelia vardas_, pavarde_
         paz_ = std::move(other.paz_);
         egz_ = other.egz_;
         rez_ = other.rez_;
@@ -123,6 +120,14 @@ std::istream& operator>>(std::istream& is, Studentas& s) {
     }
     s.rez_ = 0.0;
     return is;
+}
+//
+// VIRTUALUS METODAS
+// 
+
+// Realizuoja Zmogus::print() – naudojamas operator<<(Zmogus&)
+void Studentas::print(std::ostream& os) const {
+    os << *this;
 }
 
 // Metodai 
