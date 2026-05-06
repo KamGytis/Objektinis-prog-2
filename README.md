@@ -1,4 +1,4 @@
-# Studentu programa v1.2
+# Studentu programa v1.5
 
 Programa skirta studentu duomenu valdymui naudojant C++ klases ir STL konteinerius.
 
