@@ -2,8 +2,8 @@ CXX      = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra
 TARGET   = studentai
  
-SRCS = main.cpp studentas.cpp vector_ops.cpp list_ops.cpp deque_ops.cpp \
-       generator.cpp testavimas.cpp utils.cpp
+SRCS = main.cpp zmogus.cpp studentas.cpp vector_ops.cpp list_ops.cpp deque_ops.cpp \
+       generator.cpp testavimas.cpp testavimas_klases.cpp utils.cpp
  
 OBJS = $(SRCS:.cpp=.o)
  
