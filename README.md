@@ -8,13 +8,15 @@ Programa skirta studentu duomenu valdymui naudojant C++ klases ir STL konteineri
 1. [Reikalavimai](#reikalavimai)
 2. [Idiegimo instrukcija](#idiegimo-instrukcija)
 3. [Naudojimo instrukcija](#naudojimo-instrukcija)
-4. [Studentas klase](#studentas-klase)
-5. [Rule of Five](#rule-of-five)
-6. [Perdengti ivesties ir isvesties operatoriai](#perdengti-ivesties-ir-isvesties-operatoriai)
-7. [Klases testavimas](#klases-testavimas)
-8. [Spartos palyginimas struct vs class](#spartos-palyginimas-struct-vs-class)
-9. [Optimizavimo veliaveliuanalize](#optimizavimo-veliaveliuanalize)
-10. [Reliazu aprasas](#reliazu-aprasas)
+4. [Klasiu hierarchija](#klasiu-hierarchija)
+5. [Zmogus abstrakti klase](#zmogus-abstrakti-klase)
+6. [Studentas isvestine klase](#studentas-isvestine-klase)
+7. [Rule of Five](#rule-of-five)
+8. [Perdengti ivesties ir isvesties operatoriai](#perdengti-ivesties-ir-isvesties-operatoriai)
+9. [Klases testavimas](#klases-testavimas)
+10. [Spartos palyginimas struct vs class](#spartos-palyginimas-struct-vs-class)
+11. [Optimizavimo veliaveliuanalize](#optimizavimo-veliaveliuanalize)
+12. [Reliazu aprasas](#reliazu-aprasas)
 
 ---
 
@@ -55,18 +57,18 @@ Atidaryti `.sln` faila ir spausti **Build -> Build Solution**, tada paleisti `st
 
 ```bash
 # Nukopijuoti sena repozitorija
-cp -r studentai_v11/ studentai_v12/
-cd studentai_v12/
-
+cp -r studentai_v12/ studentai_v15/
+cd studentai_v15/
+ 
 # Pakeisti nuotolini adresa
-git remote set-url origin https://github.com/USERNAME/studentai_v12.git
+git remote set-url origin https://github.com/USERNAME/studentai_v15.git
 git push -u origin master
-
-# Sukurti v1.2 saka ir release
-git checkout -b v1.2
-git push origin v1.2
-git tag v1.2
-git push origin v1.2
+ 
+# Sukurti v1.5 saka ir release
+git checkout -b v1.5
+git push origin v1.5
+git tag v1.5
+git push origin v1.5
 ```
 
 ---
@@ -98,51 +100,136 @@ git push origin v1.2
 
 ---
 
-## Studentas klase
-
-### Privatus laukai
-
-| Laukas     | Tipas                | Aprasymas                        |
-|------------|----------------------|----------------------------------|
-| `vardas_`  | `std::string`        | Studento vardas                  |
-| `pavarde_` | `std::string`        | Studento pavarde                 |
-| `paz_`     | `std::vector<int>`   | Namu darbu pazymiai (1-10)       |
-| `egz_`     | `int`                | Egzamino pazymys                 |
-| `rez_`     | `double`             | Galutinis rezultatas             |
-
-### Visi metodai
-
-| Metodas                        | Aprasymas                                        |
-|--------------------------------|--------------------------------------------------|
-| `getVardas()`                  | Grazina varda                                    |
-| `getPavarde()`                 | Grazina pavarde                                  |
-| `getPaz()`                     | Grazina paazymiuu sarasa                         |
-| `getEgz()`                     | Grazina egzamino pazymi                          |
-| `getRez()`                     | Grazina galutini rezultata                       |
-| `getPazSkaicius()`             | Grazina pazymiu skaiciu                          |
-| `setVardas(v)`                 | Nustato varda                                    |
-| `setPavarde(p)`                | Nustato pavarde                                  |
-| `setEgz(e)`                    | Nustato egzamino pazymi                          |
-| `setRez(r)`                    | Nustato galutini rezultata                       |
-| `addPazymys(p)`                | Prideda pazymi i sarasa                          |
-| `clearPazymiai()`              | Isvalo pazymiu sarasa                            |
-| `vidurkis()`                   | Skaiciuoja namu darbu vidurkis                   |
-| `mediana()`                    | Skaiciuoja namu darbu mediana                    |
-| `skaiciuotiRez(tipas)`         | Skaiciuoja ir issaugo galutini rezultata         |
-| `islaike()`                    | Grazina `true` jei `rez_ >= 5.0`                 |
-
-### Failų struktūra
-
-| Failas              | Aprasymas                                      |
-|---------------------|------------------------------------------------|
-| `studentas.h`       | Klases deklaracija                             |
-| `studentas.cpp`     | Klases realizacija                             |
-| `vector_ops.h/cpp`  | Operacijos su `std::vector<Studentas>`         |
-| `list_ops.h/cpp`    | Operacijos su `std::list<Studentas>`           |
-| `deque_ops.h/cpp`   | Operacijos su `std::deque<Studentas>`          |
-| `testavimas_klases.cpp` | Visu klases metodu testavimas              |
-
+## Klasiu hierarchija
+ 
+```
+Zmogus          <- abstrakti bazine klase (objektu kurti NEGALIMA)
+    |
+    +-- Studentas   <- isvestine klase (objektus kurti GALIMA)
+```
+ 
+### Failu struktura
+ 
+| Failas                  | Aprasymas                                        |
+|-------------------------|--------------------------------------------------|
+| `zmogus.h / .cpp`       | Abstrakti bazine klase                           |
+| `studentas.h / .cpp`    | Isvestine klase is Zmogus                        |
+| `vector_ops.h / .cpp`   | Operacijos su `std::vector<Studentas>`           |
+| `list_ops.h / .cpp`     | Operacijos su `std::list<Studentas>`             |
+| `deque_ops.h / .cpp`    | Operacijos su `std::deque<Studentas>`            |
+| `testavimas_klases.cpp` | Visu klases metodu testavimas                    |
+| `generator.cpp`         | Testu failu generavimas                          |
+| `testavimas.cpp`        | Spartos testavimas visiems konteineriams         |
+ 
 ---
+ 
+## Zmogus abstrakti klase
+ 
+### Kas ji daro abstrakcia?
+ 
+Klase abstrakti del **grynai virtualaus destruktoriaus**:
+ 
+```cpp
+virtual ~Zmogus() = 0;
+```
+ 
+Del sio del to bandant sukurti `Zmogus` tipo objekta kompiliatorius meta klaida:
+ 
+```cpp
+Zmogus z;              // KLAIDA: cannot instantiate abstract class
+Zmogus z("A", "B");   // KLAIDA: cannot instantiate abstract class
+```
+ 
+Galima kurti tik isvestines klases objektus:
+ 
+```cpp
+Studentas s;                              // OK
+Zmogus* ptr = new Studentas("A", "B", {}, 0);  // OK – polimorfizmas
+```
+ 
+### Zmogus laukai ir metodai
+ 
+| Laukas / Metodas     | Tipas / Grazinama | Aprasymas                          |
+|----------------------|-------------------|------------------------------------|
+| `vardas_`            | `std::string`     | Zmogaus vardas (protected)         |
+| `pavarde_`           | `std::string`     | Zmogaus pavarde (protected)        |
+| `getVardas()`        | `const string&`   | Grazina varda                      |
+| `getPavarde()`       | `const string&`   | Grazina pavarde                    |
+| `setVardas(v)`       | `void`            | Nustato varda                      |
+| `setPavarde(p)`      | `void`            | Nustato pavarde                    |
+| `print(os)`          | `virtual void`    | Grynas virtualus – realizuoja isvestine klase |
+| `~Zmogus()`          | `virtual = 0`     | Grynas virtualus destruktorius     |
+ 
+### Polimorfizmas per Zmogus*
+ 
+```cpp
+Zmogus* ptr = new Studentas("Jonas", "Jonaitis", {8, 9}, 10);
+ 
+// Getter'iai veikia per bazine klase
+ptr->getVardas();   // "Jonas"
+ptr->getPavarde();  // "Jonaitis"
+ 
+// operator<< naudoja virtual print() – iskvieciama Studentas versija
+std::cout << *ptr;
+// Jonas          Jonaitis       [8 9] Egz: 10  Rez: 0.00
+ 
+// Virtualus destruktorius – teisingai iskvieciamas Studentas destruktorius
+delete ptr;
+```
+ 
+### Rule of Five Zmogus klaseje
+ 
+```cpp
+Zmogus();                                    // numatytasis konstruktorius
+Zmogus(const string& vardas, const string& pavarde); // parametrinis
+Zmogus(const Zmogus& other);                 // kopijavimo konstruktorius
+Zmogus(Zmogus&& other) noexcept;             // perkelimo konstruktorius
+virtual ~Zmogus() = 0;                       // grynas virtualus destruktorius
+Zmogus& operator=(const Zmogus& other);      // kopijavimo priskyrimas
+Zmogus& operator=(Zmogus&& other) noexcept;  // perkelimo priskyrimas
+```
+ 
+---
+ 
+## Studentas isvestine klase
+ 
+### Paveldejimas
+ 
+`Studentas` paveldi is `Zmogus` naudodama `public` paveldejima:
+ 
+```cpp
+class Studentas : public Zmogus { ... };
+```
+ 
+Tai reiskia:
+- `Studentas` paveldi `vardas_`, `pavarde_` laukus
+- `Studentas` paveldi `getVardas()`, `getPavarde()`, `setVardas()`, `setPavarde()`
+- `Studentas` **privalo** realizuoti gryną virtualu `print()` metoda
+### Studentas papildomi laukai
+ 
+| Laukas   | Tipas              | Aprasymas                  |
+|----------|--------------------|----------------------------|
+| `paz_`   | `std::vector<int>` | Namu darbu pazymiai (1-10) |
+| `egz_`   | `int`              | Egzamino pazymys           |
+| `rez_`   | `double`           | Galutinis rezultatas       |
+ 
+### Visi Studentas metodai
+ 
+| Metodas                 | Aprasymas                                         |
+|-------------------------|---------------------------------------------------|
+| `getPaz()`              | Grazina pazymiu sarasa                            |
+| `getEgz()`              | Grazina egzamino pazymi                           |
+| `getRez()`              | Grazina galutini rezultata                        |
+| `getPazSkaicius()`      | Grazina pazymiu skaiciu                           |
+| `setEgz(e)`             | Nustato egzamino pazymi                           |
+| `setRez(r)`             | Nustato galutini rezultata                        |
+| `addPazymys(p)`         | Prideda pazymi i sarasa                           |
+| `clearPazymiai()`       | Isvalo pazymiu sarasa                             |
+| `vidurkis()`            | Skaiciuoja namu darbu vidurkis                    |
+| `mediana()`             | Skaiciuoja namu darbu mediana                     |
+| `skaiciuotiRez(tipas)`  | Skaiciuoja galutini rezultata (1=vidurkis, 2=mediana) |
+| `islaike()`             | `true` jei `rez_ >= 5.0`                          |
+| `print(os)`             | Realizuoja Zmogus gryna virtualu metoda           |
 
 ## Rule of Five
 
@@ -460,6 +547,16 @@ Tikrinamos **7 sekcijos**:
 
 ## Reliazu aprasas
 
+### v1.5
+- Sukurta abstrakti bazine klase `Zmogus` su grynai virtualiu destruktoriumi.
+- `Studentas` isvestine is `Zmogus` – paveldi `vardas_`, `pavarde_` ir ju metodus.
+- Rule of Five realizuotas abiejose klasese – `Studentas` konstruktoriai kviecia `Zmogus` konstruktorius.
+- Priskyrimo operatoriai kviecia `Zmogus::operator=`.
+- Polimorfizmas – `Zmogus*` rodykle gali rodyti i `Studentas` objekta.
+- Virtualus `print()` metodas – `operator<<(Zmogus&)` veikia per virtual dispatch.
+- Pridetas naujas testas `testuoti_zmogus_abstrakti()` – 8 papildomi patikrinimai.
+- Visi v1.2 testai islaikyti – 91/91 pavyko.
+  
 ### v1.2
 - Papildyti visi palyginimo operatoriai: `!=`, `<=`, `>=`.
 - Sukurtas issamaus klases testavimo modulis `testavimas_klases.cpp`.
