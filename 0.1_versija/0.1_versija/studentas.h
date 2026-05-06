@@ -1,15 +1,26 @@
 #ifndef STUDENTAS_H
 #define STUDENTAS_H
 
-#include <string>
+#include "zmogus.h"
 #include <vector>
 #include <iostream>
 #include <iomanip>
+#include <sstream>
 
-class Studentas {
+// 
+// Isvestine klase Studentas : public Zmogus
+//
+// Paveldi is abstrakcios klases Zmogus:
+//   - vardas_, pavarde_ laukus
+//   - getVardas(), getPavarde(), setVardas(), setPavarde()
+//   - Rule of Five is bazines klases
+//
+// Papildo savo laukais: paz_, egz_, rez_
+// Realizuoja gryna virtualu metoda: print()
+// 
+
+class Studentas : public Zmogus {
 private:
-    std::string vardas_;
-    std::string pavarde_;
     std::vector<int> paz_;
     int egz_;
     double rez_;
@@ -47,31 +58,52 @@ public:
     bool operator>=(const Studentas& other) const;
     bool operator!=(const Studentas& other) const;
 
-    //  Srautu operatoriai 
+    // Prideti pazymi: s += 8
+    Studentas& operator+=(int pazymys);
+
+    // Prieiga prie paz_[i]
+    int  operator[](size_t i) const;
+    int& operator[](size_t i);
+
+    // SRAUTU OPERATORIAI
+
+    // Isveda: Vardas  Pavarde  [paz1 ... pazN]  Egz: E  Rez: R
     friend std::ostream& operator<<(std::ostream& os, const Studentas& s);
+
+    // Nuskaito eilute: Vardas Pavarde paz1 paz2 ... pazN egz
     friend std::istream& operator>>(std::istream& is, Studentas& s);
 
-    //  Getteriai 
-    const std::string& getVardas()  const { return vardas_; }
-    const std::string& getPavarde() const { return pavarde_; }
-    const std::vector<int>& getPaz() const { return paz_; }
-    int    getEgz() const { return egz_; }
-    double getRez() const { return rez_; }
-    size_t getPazSkaicius() const { return paz_.size(); }
+    // 
+    // Virtualus metodas – realizuoja bazines klases gryna virtualu metoda
+    // 
 
-    // Setteriai 
-    void setVardas(const std::string& v) { vardas_ = v; }
-    void setPavarde(const std::string& p) { pavarde_ = p; }
+    void print(std::ostream& os) const override;
+
+    // 
+    // GETTERIAI
+    // 
+
+    const std::vector<int>& getPaz()         const { return paz_; }
+    int                     getEgz()         const { return egz_; }
+    double                  getRez()         const { return rez_; }
+    size_t                  getPazSkaicius() const { return paz_.size(); }
+
+    // 
+    // SETTERIAI
+    // 
+
     void setEgz(int e) { egz_ = e; }
     void setRez(double r) { rez_ = r; }
 
-    //  Metodai 
-    void addPazymys(int p);
-    void clearPazymiai();
+    // 
+    // METODAI
+    // 
 
+    void   addPazymys(int p);
+    void   clearPazymiai();
     double vidurkis() const;
     double mediana()  const;
-    void   skaiciuotiRez(int tipas);  // 1 = vidurkis, 2 = mediana
+    void   skaiciuotiRez(int tipas); // 1=vidurkis, 2=mediana
     bool   islaike() const { return rez_ >= 5.0; }
 };
 
