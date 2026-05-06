@@ -1,4 +1,5 @@
 #include "studentas.h"
+#include "zmogus.h"
 #include <iostream>
 #include <sstream>
 #include <cassert>
@@ -289,6 +290,42 @@ static void testuoti_su_stl() {
 }
 
 // PAGRINDINIS TESTO KVIETIMAS
+static void testuoti_zmogus_abstrakti() {
+	sekcija("Zmogus abstrakti klase (v1.5)");
+
+	// Zmogus objekto sukurti NEGALIMA – klase abstrakti.
+	// Toliau pateiktas kodas NEKOMPILIUOJAS (tai yra tinkamas elgesys):
+	//   Zmogus z;                  // KLAIDA: cannot instantiate abstract class
+	//   Zmogus z("A", "B");        // KLAIDA: cannot instantiate abstract class
+	// Tai irodo kad abstraktumas veikia teisingai.
+
+	// Galima sukurti tik Studentas objekta (isvestine klase):
+	Studentas s("Jonas", "Jonaitis", { 8, 9 }, 10);
+	tikrinti(true, "Zmogus abstrakti: Studentas objektas sukurtas sekmingai");
+
+	// Studentas yra Zmogus tipo (polimorfizmas)
+	Zmogus* ptr = new Studentas("Ona", "Onaite", { 7, 8 }, 9);
+	tikrinti(ptr != nullptr, "Zmogus abstrakti: Zmogus* rodo i Studentas objekta");
+	tikrinti(ptr->getVardas() == "Ona", "Zmogus abstrakti: getVardas() per bazine klase");
+	tikrinti(ptr->getPavarde() == "Onaite", "Zmogus abstrakti: getPavarde() per bazine klase");
+
+	// operator<< per bazine klase naudoja virtual print()
+	std::ostringstream oss;
+	oss << *ptr;
+	tikrinti(oss.str().find("Ona") != std::string::npos,
+		"Zmogus abstrakti: operator<< per Zmogus& naudoja virtual print()");
+
+	// Virtualus destruktorius – teisingai iskvieciamas Studentas destruktorius
+	delete ptr;
+	tikrinti(true, "Zmogus abstrakti: virtualus destruktorius iskviestas teisingai");
+
+	// Bazines klases getteriai ir setteriai veikia per isvestine klase
+	Studentas t;
+	t.setVardas("Petras");
+	t.setPavarde("Petraitis");
+	tikrinti(t.getVardas() == "Petras", "Zmogus abstrakti: setVardas/getVardas is bazines");
+	tikrinti(t.getPavarde() == "Petraitis", "Zmogus abstrakti: setPavarde/getPavarde is bazines");
+}
 
 void atlikti_klases_testus() {
 	std::cout << "\n";
@@ -302,6 +339,7 @@ void atlikti_klases_testus() {
 	testuoti_srautu_operatorius();
 	testuoti_metodus();
 	testuoti_su_stl();
+	testuoti_zmogus_abstrakti();
 
 	std::cout << "\n" << std::string(55, '=') << "\n";
 	std::cout << "  Rezultatas: " << testai_pavyke << " / "

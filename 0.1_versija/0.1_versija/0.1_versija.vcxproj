@@ -133,6 +133,7 @@
     <ClCompile Include="testavimas_klases.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="vector_ops.cpp" />
+    <ClCompile Include="zmogus.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="deque_ops.h" />
@@ -140,6 +141,7 @@
     <ClInclude Include="studentas.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="vector_ops.h" />
+    <ClInclude Include="zmogus.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

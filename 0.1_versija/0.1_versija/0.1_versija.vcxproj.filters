@@ -39,6 +39,12 @@
     <ClCompile Include="studentas.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="testavimas_klases.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zmogus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vector_ops.h">
@@ -54,6 +60,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="studentas.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zmogus.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

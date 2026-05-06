@@ -143,7 +143,7 @@ static void rankinis_ivedimas() {
 
 int main() {
     while (true) {
-        std::cout << "\n======= STUDENTU PROGRAMA v1.0 (pradinis) =======\n"
+        std::cout << "\n======= STUDENTU PROGRAMA v1.5  =======\n"
             << "1 - Rankinis ivedimas\n"
             << "2 - Skaityti is failo (vector)\n"
             << "3 - Skaityti is failo (list)\n"
