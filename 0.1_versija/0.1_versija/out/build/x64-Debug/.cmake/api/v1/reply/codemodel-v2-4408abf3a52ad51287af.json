@@ -174,14 +174,14 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "studentu_programa::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-studentu_programa-Debug-34cfd6c79c71c3c7d891.json",
+					"jsonFile" : "target-studentu_programa-Debug-158c343f48f98a1c5f41.json",
 					"name" : "studentu_programa",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "tests::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-tests-Debug-62d96d9128fc95994904.json",
+					"jsonFile" : "target-tests-Debug-f2af07692cdcc228da7f.json",
 					"name" : "tests",
 					"projectIndex" : 0
 				}
