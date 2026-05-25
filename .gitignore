@@ -8,3 +8,6 @@ x64/
 studentai*.txt
 kursiokai*.txt
 studentai1000000.txt
+out/
+*.vcxproj
+*.filters
