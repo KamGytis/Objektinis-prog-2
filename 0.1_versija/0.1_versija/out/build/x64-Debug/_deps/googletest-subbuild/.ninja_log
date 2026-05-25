@@ -1,0 +1,21 @@
+# ninja log v6
+5	62	8014210330295697	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-mkdir	7fd93ebab37ed8de
+5	62	8014210330295697	C:/Users/GYTIS/Documents/GitHub/Objektinis-prog-2/0.1_versija/0.1_versija/out/build/x64-Debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-mkdir	7fd93ebab37ed8de
+63	1154	8014210341230076	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-download	24ab671f6f81fe32
+63	1154	8014210341230076	C:/Users/GYTIS/Documents/GitHub/Objektinis-prog-2/0.1_versija/0.1_versija/out/build/x64-Debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-download	24ab671f6f81fe32
+1155	1199	8014210341675673	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-update	fcae44454a2eed17
+1155	1199	8014210341675673	C:/Users/GYTIS/Documents/GitHub/Objektinis-prog-2/0.1_versija/0.1_versija/out/build/x64-Debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-update	fcae44454a2eed17
+1199	1244	8014210342132012	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-patch	97011a0968ed9526
+1199	1244	8014210342132012	C:/Users/GYTIS/Documents/GitHub/Objektinis-prog-2/0.1_versija/0.1_versija/out/build/x64-Debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-patch	97011a0968ed9526
+1245	1290	8014210342589280	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-configure	7ea77646536311d7
+1245	1290	8014210342589280	C:/Users/GYTIS/Documents/GitHub/Objektinis-prog-2/0.1_versija/0.1_versija/out/build/x64-Debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-configure	7ea77646536311d7
+1290	1335	8014210343029520	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-build	1ad578aee09e0915
+1290	1335	8014210343029520	C:/Users/GYTIS/Documents/GitHub/Objektinis-prog-2/0.1_versija/0.1_versija/out/build/x64-Debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-build	1ad578aee09e0915
+1335	1378	8014210343457092	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-install	dd4488807d532a61
+1335	1378	8014210343457092	C:/Users/GYTIS/Documents/GitHub/Objektinis-prog-2/0.1_versija/0.1_versija/out/build/x64-Debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-install	dd4488807d532a61
+1378	1421	8014210343906570	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-test	1934511bca435313
+1378	1421	8014210343906570	C:/Users/GYTIS/Documents/GitHub/Objektinis-prog-2/0.1_versija/0.1_versija/out/build/x64-Debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-test	1934511bca435313
+1422	1485	8014210344532674	CMakeFiles/googletest-populate-complete	4c91cf053dc1389c
+1422	1485	8014210344532674	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-done	4c91cf053dc1389c
+1422	1485	8014210344532674	C:/Users/GYTIS/Documents/GitHub/Objektinis-prog-2/0.1_versija/0.1_versija/out/build/x64-Debug/_deps/googletest-subbuild/CMakeFiles/googletest-populate-complete	4c91cf053dc1389c
+1422	1485	8014210344532674	C:/Users/GYTIS/Documents/GitHub/Objektinis-prog-2/0.1_versija/0.1_versija/out/build/x64-Debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-done	4c91cf053dc1389c
