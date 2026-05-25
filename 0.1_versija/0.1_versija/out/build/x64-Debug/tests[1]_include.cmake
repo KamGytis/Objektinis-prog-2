@@ -1,5 +1,0 @@
-if(EXISTS "C:/Users/GYTIS/Documents/GitHub/Objektinis-prog-2/0.1_versija/0.1_versija/out/build/x64-Debug/tests[1]_tests.cmake")
-  include("C:/Users/GYTIS/Documents/GitHub/Objektinis-prog-2/0.1_versija/0.1_versija/out/build/x64-Debug/tests[1]_tests.cmake")
-else()
-  add_test(tests_NOT_BUILT tests_NOT_BUILT)
-endif()
