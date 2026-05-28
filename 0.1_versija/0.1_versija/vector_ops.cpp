@@ -1,4 +1,4 @@
-#include "vector_ops.h"
+﻿#include "vector_ops.h"
 #include "utils.h"
 
 #include <iostream>
@@ -8,6 +8,8 @@
 #include <iomanip>
 #include <stdexcept>
 #include <chrono>
+
+
 
 void skaitymas_is_failo(const std::string& filename, std::vector<Studentas>& studentai) {
     std::ifstream file(filename);

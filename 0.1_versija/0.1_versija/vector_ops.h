@@ -1,35 +1,106 @@
-#ifndef VECTOR_OPS_H
+﻿#ifndef VECTOR_OPS_H
 #define VECTOR_OPS_H
 
 #include "studentas.h"
 #include <vector>
 #include <string>
 
+/**
+ * @file vector_ops.h
+ * @brief Funkcijos darbui su std::vector<Studentas>.
+ */
+
+
+ /**
+  * @brief Nuskaito studentų duomenis iš failo į vektorių.
+  *
+  * Failo formatas: pirma eilutė antraštė, toliau kiekvienoje eilutėje:
+  * Vardas Pavarde paz1 paz2 ... pazN egzaminas.
+  *
+  * @param filename Failo pavadinimas.
+  * @param studentai [out] Vektorius, kur bus patalpinti studentai.
+  * @throws std::runtime_error Jei failo nepavyksta atidaryti.
+  * @kompleksiskumas O(N * M), kur N – studentų skaičius, M – pažymių skaičius.
+  */
 // Skaitymas ir isvedimas
 void skaitymas_is_failo(const std::string& filename, std::vector<Studentas>& studentai);
+
+
+/**
+ * @brief Išveda studentų sąrašą į konsolę.
+ * @param studentai Studentų vektorius.
+ * @param metodas 1 – vidurkis, 2 – mediana (nurodoma antraštėje).
+ */
 void isvedimas(const std::vector<Studentas>& studentai, int metodas);
+/**
+ * @brief Išveda studentų sąrašą į failą.
+ * @param studentai Studentų vektorius.
+ * @param filename Išvesties failo pavadinimas.
+ * @param kategorija "Kietiakai" arba "Vargsiukai" – naudojama pranešimui.
+ * @throws std::runtime_error Jei failo nepavyksta sukurti.
+ */
 void isvedimas_i_faila(const std::vector<Studentas>& studentai,
     const std::string& filename,
     const std::string& kategorija);
+/**
+ * @brief Apskaičiuoja galutinį rezultatą kiekvienam studentui.
+ * @param tipas 1 – pagal vidurkį, 2 – pagal medianą.
+ * @param studentai Studentų vektorius (modifikuojamas).
+ */
 
-// Skaiciavimai
+
 void pasirinkimo_metodas(int tipas, std::vector<Studentas>& studentai);
 
-// rusiavimas
+/**
+ * @brief Surūšiuoja studentų vektorių pagal pasirinktą kriterijų.
+ * @param studentai Vektorius (modifikuojamas).
+ * @param budas Rūšiavimo būdas:
+ *   1 – pagal vardą didėjant,
+ *   2 – pagal vardą mažėjant,
+ *   3 – pagal pavardę didėjant,
+ *   4 – pagal pavardę mažėjant,
+ *   5 – pagal galutinį rezultatą didėjant,
+ *   6 – pagal galutinį rezultatą mažėjant.
+ */
+
+
 void rusiavimas(std::vector<Studentas>& studentai, int budas);
+
+/**
+ * @brief Paprašo vartotojo pasirinkti rūšiavimo būdą.
+ * @return Pasirinkimo kodas (1..6).
+ */
 int  pasirinkimas_rusiavimo_budo();
 
-// skirtstymas i grupes
+/**
+ * @brief Paprastas skirstymas į dvi grupes (originalas lieka nepakitęs).
+ * @param visi Visi studentai (const).
+ * @param kieti [out] Studentai su rez >= 5.0.
+ * @param vargsai [out] Studentai su rez < 5.0.
+ */
+
 void   skirstymas_i_grupes(const std::vector<Studentas>& visi,
     std::vector<Studentas>& kieti,
     std::vector<Studentas>& vargsai);
+/**
+ * @brief Strategija S1: du nauji konteineriai, kopijavimas su copy_if.
+ * @return Sugaištas laikas sekundėmis.
+ */
 
 double skirstymas_s1(const std::vector<Studentas>& studentai,
     std::vector<Studentas>& kieti,
     std::vector<Studentas>& vargsai);
 
+/**
+ * @brief Strategija S2: vienas naujas + erase/remove_if.
+ * @return Sugaištas laikas sekundėmis.
+ */
 double skirstymas_s2(std::vector<Studentas>& studentai,
     std::vector<Studentas>& vargsai);
+/**
+ * @brief Strategija S3: std::partition.
+ * @return Sugaištas laikas sekundėmis.
+ */
 
 double skirstymas_s3(std::vector<Studentas>& studentai,
     std::vector<Studentas>& vargsai);
